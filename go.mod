@@ -11,6 +11,8 @@ replace github.com/docker/docker => github.com/docker/engine v0.0.0-201908272327
 replace github.com/docker/distribution => github.com/docker/distribution v0.0.0-20190711223531-1fb7fffdb266
 
 require (
+	aletheia.icu/broccoli v1.0.1 // indirect
+	aletheia.icu/broccoli/fs v0.0.0-20200415102004-94b0cd2fec7b
 	github.com/Azure/go-ansiterm v0.0.0-20170929234023-d6e3b3328b78 // indirect
 	github.com/Microsoft/go-winio v0.4.14 // indirect
 	github.com/beme/abide v0.0.0-20190723115211-635a09831760

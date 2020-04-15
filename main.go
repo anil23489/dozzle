@@ -37,7 +37,16 @@ type handler struct {
 	box     packr.Box
 }
 
+//go:generate broccoli -src=static -o assets
+
 func init() {
+	br.Walk("assets", func(path string, info os.FileInfo, err error) error {
+
+		print(path)
+
+		return nil
+	})
+
 	pflag.String("addr", ":8080", "http service address")
 	pflag.String("base", "/", "base address of the application to mount")
 	pflag.Bool("showAll", false, "show all containers, even stopped")
