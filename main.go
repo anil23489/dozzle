@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"html/template"
+	// "html/template"
 	"net/http"
 	"net/url"
 	"os"
@@ -14,7 +14,7 @@ import (
 	"time"
 
 	"github.com/amir20/dozzle/docker"
-	"github.com/gobuffalo/packr"
+	// "github.com/gobuffalo/packr"
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/pflag"
@@ -34,7 +34,7 @@ var (
 type handler struct {
 	client  docker.Client
 	showAll bool
-	box     packr.Box
+	// box     packr.Box
 }
 
 //go:generate broccoli -src=static -o assets
@@ -114,11 +114,11 @@ func main() {
 		log.Fatalf("Could not connect to Docker Engine: %v", err)
 	}
 
-	box := packr.NewBox("./static")
+	// box := packr.NewBox("./static")
 	r := createRoutes(base, &handler{
 		client:  dockerClient,
 		showAll: showAll,
-		box:     box,
+		// box:     box,
 	})
 	srv := &http.Server{Addr: addr, Handler: r}
 
@@ -141,34 +141,34 @@ func main() {
 }
 
 func (h *handler) index(w http.ResponseWriter, req *http.Request) {
-	fileServer := http.FileServer(h.box)
-	if h.box.Has(req.URL.Path) && req.URL.Path != "" && req.URL.Path != "/" {
-		fileServer.ServeHTTP(w, req)
-	} else {
-		text, err := h.box.FindString("index.html")
-		if err != nil {
-			panic(err)
-		}
-		text = strings.Replace(text, "__BASE__", "{{ .Base }}", -1)
-		tmpl, err := template.New("index.html").Parse(text)
-		if err != nil {
-			panic(err)
-		}
+	// fileServer := http.FileServer(h.box)
+	// if h.box.Has(req.URL.Path) && req.URL.Path != "" && req.URL.Path != "/" {
+	// 	fileServer.ServeHTTP(w, req)
+	// } else {
+	// 	text, err := h.box.FindString("index.html")
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	text = strings.Replace(text, "__BASE__", "{{ .Base }}", -1)
+	// 	tmpl, err := template.New("index.html").Parse(text)
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
 
-		path := ""
-		if base != "/" {
-			path = base
-		}
+	// 	path := ""
+	// 	if base != "/" {
+	// 		path = base
+	// 	}
 
-		data := struct {
-			Base    string
-			Version string
-		}{path, version}
-		err = tmpl.Execute(w, data)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-		}
-	}
+	// 	data := struct {
+	// 		Base    string
+	// 		Version string
+	// 	}{path, version}
+	// 	err = tmpl.Execute(w, data)
+	// 	if err != nil {
+	// 		http.Error(w, err.Error(), http.StatusInternalServerError)
+	// 	}
+	// }
 }
 
 func (h *handler) listContainers(w http.ResponseWriter, r *http.Request) {
